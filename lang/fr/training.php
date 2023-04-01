@@ -6,6 +6,8 @@ return [
         'failed_to_fetch' => 'Impossible de récupérer les entraînements',
     ],
     'create' => [
+        'cta' => 'Créer un entrainement',
+        'title' => 'Créer un entrainement',
         'failed_to_save' => 'Impossible de sauvegarder l\'entraînement',
     ],
     'cs_go_aim_reflex_training' => [
