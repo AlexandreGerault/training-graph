@@ -29,6 +29,7 @@ class GetEloquentGenericTrainingInformationQuery implements GetGenericTrainingIn
 
         $graphData = CsGoAimReflexTrainingViewData::query()
             ->selectRaw('AVG(hit_ratio) as hit_ratio, DATE(date) as date')
+            ->whereIn('metric_record_uuid', $training->metricRecords->pluck('uuid'))
             ->groupBy('date')
             ->orderBy('date', 'ASC')
             ->get();
