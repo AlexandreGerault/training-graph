@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace Training\Application\Query\ShowTraining;
 
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
 use Training\Domain\TrainingAggregate\TrainingId;
 use Training\Domain\TrainingAggregate\TrainingType;

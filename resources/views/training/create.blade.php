@@ -8,24 +8,23 @@
             <form class="flex flex-col gap-4" action="{{ route('training.store') }}" method="POST">
                 <x-form.form-errors :errors="$errors" />
                 @csrf
-                {{  __('training.create.failed_to_save') }}
 
                 <div>
-                    <x-form.label for="name" :value="__('name')" />
+                    <x-form.label for="name" :value="__('Name')" />
                     <div class="mt-2">
                         <x-form.input id="name" name="name" type="text" autocomplete="name" required />
                     </div>
                 </div>
 
                 <div>
-                    <x-form.label for="description" :value="__('description')" />
+                    <x-form.label for="description" :value="__('Description')" />
                     <div class="mt-2">
                         <x-form.input id="description" name="description" type="text" required />
                     </div>
                 </div>
 
                 <div>
-                    <x-form.label for="trainingType" :value="__('trainingType')" />
+                    <x-form.label for="trainingType" :value="__('Training type')" />
                     <div class="mt-2">
                         <x-form.select id="trainingType" name="trainingType">
                             <option value="cs_go_aim_reflex_training">CS:GO - Aim training</option>
