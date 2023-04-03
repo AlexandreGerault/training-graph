@@ -52,9 +52,18 @@
             <div class="mt-6 flow-root">
                 <div class="-my-6 divide-y divide-gray-500/10">
                     <div class="py-6">
-                        <a href="{{ route('login') }}" class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
-                            {{ __('auth.login') }}
-                        </a>
+                        @guest
+                            <a href="{{ route('login') }}" class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
+                                {{ __('auth.login') }}
+                            </a>
+                        @else
+                            <a href="{{ route('dashboard') }}" class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
+                                {{ __('Dashboard') }}
+                            </a>
+                            <a href="{{ route('training.list') }}" class="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50">
+                                {{ __('Trainings') }}
+                            </a>
+                        @endguest
                     </div>
                 </div>
             </div>
