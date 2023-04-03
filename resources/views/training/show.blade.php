@@ -3,7 +3,7 @@
         {{ $vm->name }}
     </x-slot>
 
-    <div class="grid px-16 py-8 sm:grid-cols-[minmax(400px,auto),1fr] gap-8">
+    <div class="grid lg:px-16 py-8 sm:grid-cols-[minmax(400px,auto),1fr] gap-8">
         <div class="sm:mx-auto sm:w-full flex flex-col gap-8">
             <x-section-card title="Description">
                 {{ $vm->description }}
@@ -60,7 +60,7 @@
         </div>
     </div>
 
-    <div class="grid px-16 py-8">
+    <div class="grid lg:px-16 py-8">
         <x-section-card-table>
             <x-slot name="title">
                 <h3 class="font-bold">Séries</h3>
