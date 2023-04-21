@@ -6,7 +6,6 @@ use Database\Factories\Training\GameFactory;
 use Database\Factories\Training\TrainingFactory;
 use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Training\Domain\TrainingAggregate\UserId;
 use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\assertDatabaseMissing;
 use Tests\TestCase;
@@ -14,6 +13,7 @@ use Training\Domain\TrainingAggregate\GameId;
 use Training\Domain\TrainingAggregate\MetricRecords\CsGoAimReflexTrainingMetricRecord;
 use Training\Domain\TrainingAggregate\Training;
 use Training\Domain\TrainingAggregate\TrainingType;
+use Training\Domain\TrainingAggregate\UserId;
 use Training\Infrastructure\Gateway\EloquentTrainingRepository;
 
 uses(
@@ -57,10 +57,10 @@ it('updates a training with metric records', function () {
         CsGoAimReflexTrainingMetricRecord::fromArray(
             date: '2023-09-28',
             values: [
-            'targetCount' => 10,
-            'hitCount' => 5,
-            'missCount' => 5,
-        ])
+                'targetCount' => 10,
+                'hitCount' => 5,
+                'missCount' => 5,
+            ])
     );
 
     $trainingGateway->save($training->snapshot());

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Training\Application\Query\ShowTraining;
 
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 use Training\Domain\TrainingAggregate\TrainingId;
 use Training\Domain\TrainingAggregate\TrainingType;
 use Training\Infrastructure\Model\CsGoAimReflexTrainingViewData;
@@ -26,7 +27,10 @@ class GetEloquentGenericTrainingInformationQuery implements GetGenericTrainingIn
         $trainingType = TrainingType::from($training->training_type);
 
         $graphData = CsGoAimReflexTrainingViewData::query()
-            ->selectRaw('AVG(hit_ratio) as hit_ratio, DATE(date) as date')
+            ->addSelect(DB::raw('AVG(hit_ratio) AS hit_ratio'))
+            ->addSelect(DB::raw('DATE(date) AS date'))
+            ->addSelect(DB::raw('STD(hit_ratio) AS std_hit_ratio'))
+            ->addSelect(DB::raw('COUNT(hit_ratio) AS count_hit_ratio'))
             ->whereIn('metric_record_uuid', $training->metricRecords->pluck('uuid'))
             ->groupBy('date')
             ->orderBy('date', 'ASC')
@@ -56,7 +60,11 @@ class GetEloquentGenericTrainingInformationQuery implements GetGenericTrainingIn
             new GraphData(
                 'Cibles touchées',
                 $graphData->map(
-                    static fn (CsGoAimReflexTrainingViewData $data): int => (int) (100 * $data->hit_ratio),
+                    static fn (CsGoAimReflexTrainingViewData $data): array => [
+                        'y' => $data->hitRatio,
+                        'yMin' => $data->hitRatio - $data->stdHitRatio,
+                        'yMax' => $data->hitRatio + $data->stdHitRatio,
+                    ],
                 )->toArray(),
                 $graphData->map(
                     static fn (CsGoAimReflexTrainingViewData $data): string => (string) $data->date,
