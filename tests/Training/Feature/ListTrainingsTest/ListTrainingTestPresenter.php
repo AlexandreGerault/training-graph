@@ -17,11 +17,11 @@ class ListTrainingTestPresenter implements ListTrainingsPresenter
 
     public function trainingsFetched(TrainingList $trainingList): void
     {
-        $this->response = "Training list";
+        $this->response = 'Training list';
     }
 
     public function failedToFetchTrainings(): void
     {
-        $this->response = "Failed to fetch trainings";
+        $this->response = 'Failed to fetch trainings';
     }
 }

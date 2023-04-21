@@ -5,7 +5,6 @@ namespace Shared\UI\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Providers\RouteServiceProvider;
 use Symfony\Component\HttpFoundation\Response;
 
 class RedirectIfAuthenticated

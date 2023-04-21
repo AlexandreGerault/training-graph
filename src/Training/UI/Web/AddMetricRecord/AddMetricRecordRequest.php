@@ -6,10 +6,6 @@ namespace Training\UI\Web\AddMetricRecord;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Training\Application\Command\AddMetricRecord\AddMetricRecordInput;
-use Training\Domain\Gateway\TrainingGateway;
-use Training\Domain\TrainingAggregate\Training;
-use Training\Domain\TrainingAggregate\TrainingType;
-use Training\Infrastructure\Model\TrainingModel;
 
 class AddMetricRecordRequest extends FormRequest
 {

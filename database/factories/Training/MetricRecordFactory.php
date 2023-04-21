@@ -15,7 +15,7 @@ class MetricRecordFactory extends Factory
     public function definition(): array
     {
         return [
-            'date' => fake()->date()
+            'date' => fake()->date(),
         ];
     }
 }

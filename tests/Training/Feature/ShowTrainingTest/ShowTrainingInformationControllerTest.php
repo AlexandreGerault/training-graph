@@ -2,13 +2,13 @@
 
 namespace Tests\Training\Feature\ShowTrainingTest;
 
+use Database\Factories\Training\TrainingFactory;
 use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
-use Training\Application\Query\ShowTraining\GetGenericTrainingInformationQuery;
-
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\swap;
+use Tests\TestCase;
+use Training\Application\Query\ShowTraining\GetGenericTrainingInformationQuery;
 
 uses(
     TestCase::class,

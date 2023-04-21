@@ -10,7 +10,6 @@ use Training\UI\Web\CreateTraining\CreateTrainingController;
 use Training\UI\Web\ListTrainings\ListTrainingsWebController;
 use Training\UI\Web\ShowTraining\ShowTrainingController;
 
-
 Route::middleware('auth')->group(function () {
     Route::get(
         uri: 'entrainements',

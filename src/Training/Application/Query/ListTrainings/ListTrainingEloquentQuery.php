@@ -15,7 +15,7 @@ class ListTrainingEloquentQuery implements ListTrainingsQuery
             ->paginate(perPage: $input->perPage, page: $input->page);
 
         $trainingViewModels = $paginatedTrainings
-            ->map(fn(TrainingModel $trainingModel) => new TrainingViewModel(
+            ->map(fn (TrainingModel $trainingModel) => new TrainingViewModel(
                 $trainingModel->uuid,
                 $trainingModel->name,
                 $trainingModel->description,

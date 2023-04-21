@@ -17,7 +17,7 @@ class ListTrainingDumbQuery implements ListTrainingsQuery
     public function execute(ListTrainingsInput $input): TrainingList
     {
         if ($this->failed) {
-            throw new \Exception("Failed to fetch trainings");
+            throw new \Exception('Failed to fetch trainings');
         }
 
         return new TrainingList(

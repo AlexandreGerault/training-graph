@@ -7,6 +7,7 @@ namespace Training\UI\Web\ShowTraining;
 use Shared\UI\Http\Controllers\Controller;
 use Symfony\Component\HttpFoundation\Response;
 use Training\Application\Query\ShowTraining\ShowTrainingUseCase;
+use Training\Infrastructure\Model\TrainingModel;
 
 class ShowTrainingController extends Controller
 {

@@ -7,7 +7,7 @@ namespace Training\Application\Query\ListTrainings;
 class TrainingList
 {
     /**
-     * @param array<TrainingViewModel> $trainings
+     * @param  array<TrainingViewModel>  $trainings
      */
     public function __construct(
         private array $trainings,

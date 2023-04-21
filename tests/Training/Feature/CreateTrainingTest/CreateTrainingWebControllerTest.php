@@ -2,6 +2,7 @@
 
 namespace Tests\Training\Feature\CreateTrainingTest;
 
+use Database\Factories\Training\GameFactory;
 use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use function Pest\Laravel\actingAs;
@@ -27,6 +28,7 @@ it('should create training', function () {
     );
 
     $user = UserFactory::new()->create();
+    GameFactory::new()->create();
 
     actingAs($user)
         ->post(route('training.store'), [
@@ -36,7 +38,7 @@ it('should create training', function () {
             'description' => 'Test description',
         ])
         ->assertRedirect()
-        ->assertRedirect(route('training.show', ['training' => $trainingGateway->last()->id->get()]));;
+        ->assertRedirect(route('training.show', ['training' => $trainingGateway->last()->id->get()]));
 });
 
 it('adds a flash error message and redirects when an error occurred', function () {
@@ -49,6 +51,7 @@ it('adds a flash error message and redirects when an error occurred', function (
     );
 
     $user = UserFactory::new()->create();
+    GameFactory::new()->create();
 
     actingAs($user)
         ->post(route('training.store'), [

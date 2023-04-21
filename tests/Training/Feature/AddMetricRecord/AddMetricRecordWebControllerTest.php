@@ -4,9 +4,7 @@ namespace Tests\Training\Feature\AddMetricRecord;
 
 use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Training\Domain\TrainingAggregate\UserId;
 use function Pest\Laravel\actingAs;
-use function Pest\Laravel\post;
 use function Pest\Laravel\swap;
 use Tests\TestCase;
 use Tests\Training\TestDoubles\InMemoryTrainingGateway;
@@ -15,6 +13,7 @@ use Training\Domain\TrainingAggregate\GameId;
 use Training\Domain\TrainingAggregate\TrainingId;
 use Training\Domain\TrainingAggregate\TrainingSnapshot;
 use Training\Domain\TrainingAggregate\TrainingType;
+use Training\Domain\TrainingAggregate\UserId;
 
 uses(
     TestCase::class,

@@ -19,5 +19,5 @@ return [
             'hit_count' => 'Success',
             'miss_count' => 'Miss',
         ],
-    ]
+    ],
 ];

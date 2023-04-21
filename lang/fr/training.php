@@ -18,5 +18,5 @@ return [
             'hit_count' => 'Nombre de tirs',
             'miss_count' => 'Nombre de ratés',
         ],
-    ]
+    ],
 ];

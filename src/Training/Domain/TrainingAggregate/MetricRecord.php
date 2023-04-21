@@ -27,12 +27,12 @@ abstract class MetricRecord implements \ArrayAccess, \IteratorAggregate
     abstract public function toArray(): array;
 
     /**
-     * @param array<string, string|int> $values
+     * @param  array<string, string|int>  $values
      */
     abstract public static function fromArray(string $date, array $values): self;
 
     /**
-     * @param array<string, string|int> $values
+     * @param  array<string, string|int>  $values
      */
     abstract protected static function assertValidArray(array $values): void;
 

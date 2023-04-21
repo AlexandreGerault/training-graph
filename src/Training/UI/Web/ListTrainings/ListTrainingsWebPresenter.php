@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Training\UI\Web\ListTrainings;
 
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\ViewErrorBag;
 use Illuminate\View\Factory;
 use Symfony\Component\HttpFoundation\Response;
