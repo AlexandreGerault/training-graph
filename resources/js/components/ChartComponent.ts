@@ -1,4 +1,9 @@
 import Chart, {ChartType} from 'chart.js/auto';
+import {
+  LineWithErrorBarsChart,
+  LineWithErrorBarsController, PointWithErrorBar
+} from "chartjs-chart-error-bars";
+import {CategoryScale, LinearScale} from "chart.js";
 
 export class ChartComponent extends HTMLElement {
   private datasetLabel: string;
@@ -9,15 +14,13 @@ export class ChartComponent extends HTMLElement {
 
   private type: ChartType;
 
-  constructor() {
-    super();
-    console.log('constructor');
-  }
-
   connectedCallback() {
-    console.log('connected');
     this.labels = this.getAttribute('labels')?.split(',') ?? [];
-    this.data = this.getAttribute('data')?.split(',').map((value) => parseInt(value)) ?? [];
+    this.data = JSON.parse(this.getAttribute('data')).map(value => ({
+      y: parseFloat(value.y) * 100,
+      yMin: parseFloat(value.yMin) * 100,
+      yMax: parseFloat(value.yMax) * 100
+    })) ?? [];
     this.datasetLabel = this.getAttribute('dataset-label') ?? '';
     this.type = this.getAttribute('type') as ChartType ?? 'line';
     this.render();
@@ -28,8 +31,10 @@ export class ChartComponent extends HTMLElement {
 
     this.appendChild(canvas);
 
+    Chart.register(PointWithErrorBar, LineWithErrorBarsChart, LineWithErrorBarsController, LinearScale, CategoryScale);
+
     new Chart(canvas, {
-      type: this.type,
+      type: LineWithErrorBarsController.id,
       data: {
         labels: this.labels,
         datasets: [{

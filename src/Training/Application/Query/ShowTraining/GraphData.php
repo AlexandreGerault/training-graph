@@ -6,6 +6,11 @@ namespace Training\Application\Query\ShowTraining;
 
 readonly class GraphData
 {
+    /**
+     * @param string $datasetLabel
+     * @param array<array<float>> $values
+     * @param array<string> $xAxisLabels
+     */
     public function __construct(
         public string $datasetLabel,
         public array $values,
@@ -20,6 +25,6 @@ readonly class GraphData
 
     public function valuesAsCommaSeparatedList(): string
     {
-        return implode(',', $this->values);
+        return json_encode($this->values);
     }
 }

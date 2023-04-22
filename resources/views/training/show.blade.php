@@ -63,7 +63,7 @@
     <div class="grid lg:px-16 py-8">
         <x-section-card-table>
             <x-slot name="title">
-                <h3 class="font-bold">Séries</h3>
+                <h3 class="font-bold">Dernières séries</h3>
             </x-slot>
 
             <x-table>
