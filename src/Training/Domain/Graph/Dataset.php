@@ -8,7 +8,7 @@ class Dataset implements \JsonSerializable
 {
     /**
      * @param string $name
-     * @param array<int|float> $values
+     * @param array<Value> $values
      */
     public function __construct(
         public string $name,

@@ -16,7 +16,7 @@ readonly class ShowTrainingUseCase
     {
         try {
             $trainingInformation = $this->getTrainingInformationQuery->execute(TrainingId::fromString($id));
-        } catch (\Exception) {
+        } catch (\Exception $exception) {
             $presenter->trainingNotFound();
 
             return;

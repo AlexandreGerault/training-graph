@@ -55,7 +55,7 @@
             <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
                 <h3 class="font-bold">Graphique</h3>
 
-                @include('training.charts.cs_go_aim_reflex_training', ['chartData' => $vm->graphData])
+                @include('training.charts.cs_go_aim_reflex_training', ['chartData' => $vm->graph])
             </div>
         </div>
     </div>

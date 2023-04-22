@@ -31,11 +31,31 @@ class Graph
 
     /**
      * @param string $datasetName
-     * @param array<int|float> $datasetValues
+     * @param array{value: int|float, std: int|float, count: int} $datasetValues
+     * @param callable|null $transformValueCallback (object $value) => Value
      * @return void
      */
-    public function addDataset(string $datasetName, array $datasetValues): void
-    {
+    public function addDataset(
+        string $datasetName,
+        array $datasetValues,
+        ?callable $transformValueCallback = null,
+        string $valueKey = 'value',
+        string $stdKey = 'std',
+        string $countKey = 'count',
+    ): void {
+        if ($transformValueCallback === null) {
+            $transformValueCallback = static fn (object $value) => new Value(
+                (float) $value->$valueKey,
+                (float) $value->$stdKey,
+                (int) $value->$countKey
+            );
+        }
+
+        $datasetValues = array_map(
+            $transformValueCallback,
+            $datasetValues,
+        );
+
         $this->datasets[] = new Dataset($datasetName, $datasetValues);
     }
 

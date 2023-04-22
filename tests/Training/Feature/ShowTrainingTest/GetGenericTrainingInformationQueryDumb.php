@@ -7,9 +7,11 @@ namespace Tests\Training\Feature\ShowTrainingTest;
 use Training\Application\Query\ShowTraining\GetGenericTrainingInformationQuery;
 use Training\Application\Query\ShowTraining\GraphData;
 use Training\Application\Query\ShowTraining\TrainingInformation;
+use Training\Domain\Graph\Graph;
+use Training\Domain\Graph\GraphType;
 use Training\Domain\TrainingAggregate\TrainingId;
 
-class GetGenericTrainingInformationQueryDumb implements GetGenericTrainingInformationQuery
+readonly class GetGenericTrainingInformationQueryDumb implements GetGenericTrainingInformationQuery
 {
     public function __construct(private bool $notFound = false)
     {
@@ -27,7 +29,7 @@ class GetGenericTrainingInformationQueryDumb implements GetGenericTrainingInform
             'Training description',
             [],
             [],
-            new GraphData('Aim Reflex', [], []),
+            new Graph(GraphType::Line, []),
         );
     }
 }

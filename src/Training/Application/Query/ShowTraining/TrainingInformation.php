@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Training\Application\Query\ShowTraining;
 
+use Training\Domain\Graph\Graph;
 use Training\Domain\TrainingAggregate\MetricRecord;
 
 class TrainingInformation
@@ -18,7 +19,7 @@ class TrainingInformation
         public string $description,
         public iterable $metricColumns,
         public array $metricRecords,
-        public GraphData $graphData,
+        public Graph $graph,
     ) {
     }
 }

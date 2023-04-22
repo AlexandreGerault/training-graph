@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace Training\Application\Query\ShowTraining;
 
+use Carbon\CarbonPeriod;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\DB;
+use Training\Domain\Graph\Graph;
+use Training\Domain\Graph\GraphType;
 use Training\Domain\TrainingAggregate\TrainingId;
 use Training\Domain\TrainingAggregate\TrainingType;
-use Training\Infrastructure\Model\CsGoAimReflexTrainingViewData;
 use Training\Infrastructure\Model\TrainingModel;
 
 class GetEloquentGenericTrainingInformationQuery implements GetGenericTrainingInformationQuery
@@ -28,15 +30,48 @@ class GetEloquentGenericTrainingInformationQuery implements GetGenericTrainingIn
 
         $trainingType = TrainingType::from($training->training_type);
 
-        $graphData = CsGoAimReflexTrainingViewData::query()
-            ->addSelect(DB::raw('AVG(hit_ratio) AS hit_ratio'))
-            ->addSelect(DB::raw('DATE(date) AS date'))
-            ->addSelect(DB::raw('STD(hit_ratio) AS std_hit_ratio'))
-            ->addSelect(DB::raw('COUNT(hit_ratio) AS count_hit_ratio'))
-            ->whereIn('metric_record_uuid', $training->metricRecords->pluck('uuid'))
-            ->groupBy('date')
-            ->orderBy('date', 'ASC')
-            ->get();
+        $trainingRecordIds = implode(
+            separator: ',',
+            array: $training->metricRecords
+                ->pluck('uuid')
+                ->map(static fn ($uuid) => "'$uuid'")
+                ->toArray()
+        );
+
+        $result = DB::select(<<<SQL
+WITH RECURSIVE dates_without_gaps(day) AS (
+  SELECT DATE_SUB(CURRENT_DATE, INTERVAL 14 DAY) as day
+  UNION ALL
+  SELECT DATE_ADD(day, INTERVAL 1 DAY) as day
+  FROM dates_without_gaps
+  WHERE day < CURRENT_DATE
+)
+SELECT
+    dates_without_gaps.day,
+    100 * COALESCE(AVG(cs_go_aim_reflex_training_view.hit_ratio), 0.0) as hit_ratio,
+    100 * COALESCE(STD(cs_go_aim_reflex_training_view.hit_ratio), 0.0) as std_hit_ratio,
+    COALESCE(COUNT(cs_go_aim_reflex_training_view.hit_ratio), 0.0) as count_hit_ratio
+FROM
+    dates_without_gaps
+LEFT JOIN
+    cs_go_aim_reflex_training_view ON (cs_go_aim_reflex_training_view.date = dates_without_gaps.day)
+WHERE
+    cs_go_aim_reflex_training_view.metric_record_uuid IN ($trainingRecordIds)
+OR
+    cs_go_aim_reflex_training_view.metric_record_uuid IS NULL
+GROUP BY dates_without_gaps.day;
+SQL);
+
+        $period = CarbonPeriod::create(Carbon::now()->subDays(14), Carbon::now());
+        $generator = $period->map(static fn ($date) => $date->format('Y-m-d'));
+        $graph = new Graph(GraphType::Line, iterator_to_array($generator));
+        $graph->addDataset(
+            datasetName: "Cibles touchées",
+            datasetValues: $result,
+            valueKey: 'hit_ratio',
+            stdKey: 'std_hit_ratio',
+            countKey: 'count_hit_ratio'
+        );
 
         return new TrainingInformation(
             uuid: $training->uuid,
@@ -59,19 +94,7 @@ class GetEloquentGenericTrainingInformationQuery implements GetGenericTrainingIn
                 },
                 array: $training->metricRecords->take(self::NUMBER_OF_RECORDS)->toArray(),
             ),
-            graphData: new GraphData(
-                datasetLabel: 'Cibles touchées',
-                values: $graphData->map(
-                    static fn (CsGoAimReflexTrainingViewData $data): array => [
-                        'y' => $data->hit_ratio,
-                        'yMin' => $data->hit_ratio - $data->std_hit_ratio,
-                        'yMax' => $data->hit_ratio + $data->std_hit_ratio,
-                    ],
-                )->toArray(),
-                xAxisLabels: $graphData->map(
-                    static fn (CsGoAimReflexTrainingViewData $data): string => (string) $data->date,
-                )->toArray(),
-            ),
+            graph: $graph,
         );
     }
 }

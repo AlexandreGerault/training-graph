@@ -1,5 +1,4 @@
 <div id="myChart">
-    <chart-component labels="{{ $chartData->xAxisLabelAsCommaSeparatedList() }}"
-                     data="{{ $chartData->valuesAsCommaSeparatedList() }}"
-                     dataset-label="{{ $chartData->datasetLabel }}"></chart-component>
+    <chart-component labels="{{ $chartData->labelsAsHtmlAttributeValue() }}"
+                     datasets="{{ $chartData->datasetsAsHtmlAttributeValue() }}"></chart-component>
 </div>
