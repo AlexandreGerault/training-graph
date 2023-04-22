@@ -13,6 +13,8 @@ use Training\Infrastructure\Model\TrainingModel;
 
 class GetEloquentGenericTrainingInformationQuery implements GetGenericTrainingInformationQuery
 {
+    private const NUMBER_OF_RECORDS = 5;
+
     public function execute(TrainingId $trainingId): TrainingInformation
     {
         $training = TrainingModel::query()
@@ -37,11 +39,11 @@ class GetEloquentGenericTrainingInformationQuery implements GetGenericTrainingIn
             ->get();
 
         return new TrainingInformation(
-            $training->uuid,
-            $training->name,
-            $training->description,
-            $trainingType->metricColumns(),
-            array_map(
+            uuid: $training->uuid,
+            name: $training->name,
+            description: $training->description,
+            metricColumns: $trainingType->metricColumns(),
+            metricRecords: array_map(
                 static function (array $metricRecord) use ($trainingType) {
                     $values = collect($metricRecord['values'])
                         ->mapWithKeys(
@@ -55,18 +57,18 @@ class GetEloquentGenericTrainingInformationQuery implements GetGenericTrainingIn
                         $values
                     );
                 },
-                array: $training->metricRecords->toArray(),
+                array: $training->metricRecords->take(self::NUMBER_OF_RECORDS)->toArray(),
             ),
-            new GraphData(
-                'Cibles touchées',
-                $graphData->map(
+            graphData: new GraphData(
+                datasetLabel: 'Cibles touchées',
+                values: $graphData->map(
                     static fn (CsGoAimReflexTrainingViewData $data): array => [
-                        'y' => $data->hitRatio,
-                        'yMin' => $data->hitRatio - $data->stdHitRatio,
-                        'yMax' => $data->hitRatio + $data->stdHitRatio,
+                        'y' => $data->hit_ratio,
+                        'yMin' => $data->hit_ratio - $data->std_hit_ratio,
+                        'yMax' => $data->hit_ratio + $data->std_hit_ratio,
                     ],
                 )->toArray(),
-                $graphData->map(
+                xAxisLabels: $graphData->map(
                     static fn (CsGoAimReflexTrainingViewData $data): string => (string) $data->date,
                 )->toArray(),
             ),
